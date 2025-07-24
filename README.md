@@ -7,6 +7,7 @@ Welcome to **Trife**, a personal open-source project designed to help you take c
 **Trife** is a life tracking app built with **React Native + Expo**, aiming to work seamlessly on both mobile devices and the web. It offers a set of tools to help you stay focused, motivated, and organized in your day-to-day life.
 
 ### 🎯 Main Features (Work in Progress)
+
 - ✅ To-Do List to manage daily tasks
 - 🗓️ Calendar view to visualize your schedule and track activity
 - ⏱️ Pomodoro Timer to stay focused and avoid burnout
@@ -19,9 +20,9 @@ Welcome to **Trife**, a personal open-source project designed to help you take c
 ## 📱 Platforms
 
 Built with **React Native + Expo**, Trife is designed for:
+
 - Web
 - Android
-- iOS
 
 ## 🌍 Languages
 
