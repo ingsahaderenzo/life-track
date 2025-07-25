@@ -1,9 +1,9 @@
 import { View, Text } from "react-native";
 
-export default function HomeScreen({ navigation }: any) {
+export default function SessionScreen() {
     return (
         <View>
-            <Text>Home Screen</Text>
+            <Text>Session Screen</Text>
         </View>
     );
 }
