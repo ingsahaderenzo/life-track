@@ -32,9 +32,11 @@ export default function TabNavigator() {
                         maxWidth: 500,
                         width: "90%",
                         shadowColor: "#000",
-                        shadowOpacity: 0.1,
-                        shadowOffset: { width: 0, height: 10 },
+                        shadowOpacity: 0.5,
+                        shadowOffset: { width: 0, height: 8 },
                         shadowRadius: 10,
+                        borderTopWidth: 0,
+                        borderTopColor: "transparent",
                     },
                 }}
             >

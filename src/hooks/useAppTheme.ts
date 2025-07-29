@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { theme } from "../theme/theme";
 import { getFromStorage } from "../utils/StorageUtils";
-import { setThemePreference } from "../redux/themeSlice";
+import { setThemePreference } from "../store/themeSlice";
 import { store } from "../app/store";
 
 export function useAppTheme() {

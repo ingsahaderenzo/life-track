@@ -1,6 +1,6 @@
 import { RadioButton } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
-import { setThemePreference } from "../redux/themeSlice";
+import { setThemePreference } from "../store/themeSlice";
 import { saveToStorage } from "../utils/StorageUtils";
 
 export const ConfigurationScreen = () => {
