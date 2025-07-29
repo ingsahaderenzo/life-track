@@ -14,7 +14,7 @@ export default function TabNavigator() {
     return (
         <NavigationContainer>
             <Tab.Navigator
-                initialRouteName="home"
+                initialRouteName="session" // Lo ponemos de forma temporal para el dev
                 screenOptions={{
                     headerShown: false,
                     tabBarShowLabel: false,

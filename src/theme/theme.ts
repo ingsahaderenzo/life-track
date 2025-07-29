@@ -15,7 +15,7 @@ const lightTheme = {
         error: "#E53935", // Rojo para errores
         onBackground: "#000000", // Texto negro
         onSurface: "#000000", // Texto negro
-        pageBackgrouned: "#000000", // Fondo para la página
+        shadow: "#ffaf96ff", // Fondo para hover, mas claro que primary
     },
 };
 
@@ -33,6 +33,7 @@ const darkTheme = {
         onSurface: "#FFFFFF", // Texto blanco
         onPrimary: "#121212", // Texto oscuro sobre el primario
         onSecondary: "#121212", // Texto oscuro sobre el secundario
+        shadow: "#ff6739ff", // Fondo para hover, mas claro que primary
     },
 };
 
