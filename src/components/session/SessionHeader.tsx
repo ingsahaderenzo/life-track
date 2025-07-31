@@ -1,77 +1,39 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useTheme } from "react-native-paper";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
+import { useTheme, Text, SegmentedButtons } from "react-native-paper";
 
-type props = {
+type Props = {
     mode: "Cronometro" | "Temporizador";
     setMode: (palabra: "Cronometro" | "Temporizador") => void;
 };
 
-// Bring the theme from react-native-paper
-
-const SessionHeader = ({ mode, setMode }: props) => {
+const SessionHeader = ({ mode, setMode }: Props) => {
     const theme = useTheme();
 
     return (
         <View style={styles.container}>
-            <Text style={[styles.title, { color: theme.colors.onBackground }]}>
+            <Text
+                variant="displaySmall"
+                style={{ color: theme.colors.onBackground }}
+            >
                 {mode}
             </Text>
+
             <Text
-                style={[styles.subtitle, { color: theme.colors.onBackground }]}
+                variant="bodyMedium"
+                style={{ color: theme.colors.onBackground, marginTop: 4 }}
             >
                 Configura tu sesión de enfoque
             </Text>
-            <View
-                style={[
-                    styles.buttonContainer,
-                    { backgroundColor: theme.colors.background },
+
+            <SegmentedButtons
+                value={mode}
+                onValueChange={setMode}
+                buttons={[
+                    { value: "Cronometro", label: "Cronómetro" },
+                    { value: "Temporizador", label: "Temporizador" },
                 ]}
-            >
-                <TouchableOpacity
-                    onPress={() => setMode("Cronometro")}
-                    style={[
-                        styles.button,
-                        mode === "Cronometro"
-                            ? {
-                                  backgroundColor: theme.colors.shadow,
-                              }
-                            : {},
-                    ]}
-                >
-                    <Text
-                        style={{
-                            color: theme.colors.onBackground,
-                            fontWeight:
-                                mode === "Cronometro" ? "bold" : "normal",
-                            fontStyle:
-                                mode === "Cronometro" ? "normal" : "italic",
-                        }}
-                    >
-                        Cronometro
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => setMode("Temporizador")}
-                    style={[
-                        styles.button,
-                        mode === "Temporizador"
-                            ? { backgroundColor: theme.colors.shadow }
-                            : {},
-                    ]}
-                >
-                    <Text
-                        style={{
-                            color: theme.colors.onBackground,
-                            fontWeight:
-                                mode === "Temporizador" ? "bold" : "normal",
-                            fontStyle:
-                                mode === "Temporizador" ? "normal" : "italic",
-                        }}
-                    >
-                        Temporizador
-                    </Text>
-                </TouchableOpacity>
-            </View>
+                style={{ marginTop: 20, minWidth: 300 }}
+            />
         </View>
     );
 };
@@ -84,24 +46,17 @@ const styles = StyleSheet.create({
         width: "100%",
         padding: 20,
     },
-    title: {
-        fontSize: 24,
-        fontWeight: "bold",
-    },
-    subtitle: {
-        fontSize: 16,
-    },
     buttonContainer: {
         flexDirection: "row",
         gap: 10,
         borderRadius: 10,
         padding: 5,
-        marginTop: 10,
+        marginTop: 12,
         flexWrap: "wrap",
         justifyContent: "space-evenly",
         alignItems: "center",
         width: "90%",
-        maxWidth: 300,
+        maxWidth: 330,
     },
     button: {
         paddingVertical: 10,

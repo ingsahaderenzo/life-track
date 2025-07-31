@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { PaperProvider } from "react-native-paper";
 import TabNavigator from "./src/navigation/TabNavigator";
 import { store } from "./src/app/store";
