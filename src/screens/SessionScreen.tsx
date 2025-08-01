@@ -5,6 +5,7 @@ import { useState } from "react";
 import CategoryList from "../components/session/CategoryList";
 import ParametersList from "../components/session/ParametersList";
 import ButtonsSession from "../components/session/ButtonsSession";
+import TimerModal from "../components/session/TimerModal";
 
 export default function SessionScreen() {
     // Use a hook to bring back the theme
@@ -12,6 +13,10 @@ export default function SessionScreen() {
 
     const [startEnabled, setStartEnabled] = useState<boolean>(false);
     const [resetInputs, setResetInputs] = useState<boolean>(false);
+    const [timeModalVisible, setTimeModalVisible] = useState<boolean>(false);
+    const [duration, setDuration] = useState<string>("");
+    const [sessions, setSessions] = useState<string>("");
+    const [breakDuration, setBreakDuration] = useState<string>("");
 
     // Hook to know what kind of mode we got
     const [mode, setMode] = useState<"Temporizador" | "Cronometro">(
@@ -42,11 +47,27 @@ export default function SessionScreen() {
                     mode={mode}
                     setStartEnabled={setStartEnabled}
                     resetInputs={resetInputs}
+                    setDuration={setDuration}
+                    setSessions={setSessions}
+                    setBreakDuration={setBreakDuration}
+                    duration={duration}
+                    sessions={sessions}
+                    breakDuration={breakDuration}
                 />
                 <ButtonsSession
                     startEnabled={startEnabled}
                     setResetInputs={setResetInputs}
                     resetInputs={resetInputs}
+                    mode={mode}
+                    startTimer={() => setTimeModalVisible(true)}
+                />
+                <TimerModal
+                    visible={timeModalVisible}
+                    forceClose={() => setTimeModalVisible(false)}
+                    okClose={() => setTimeModalVisible(false)}
+                    duration={parseInt(duration)}
+                    sessions={parseInt(sessions)}
+                    breakDuration={parseInt(breakDuration)}
                     mode={mode}
                 />
             </View>

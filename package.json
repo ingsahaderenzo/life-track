@@ -16,6 +16,7 @@
     "@react-navigation/native-stack": "^7.3.21",
     "@reduxjs/toolkit": "^2.8.2",
     "expo": "~53.0.20",
+    "expo-notifications": "~0.31.4",
     "expo-status-bar": "~2.2.3",
     "install": "^0.13.0",
     "npm": "^11.5.1",
@@ -33,6 +34,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@types/react": "~19.0.10",
+    "expo-module-scripts": "^4.1.9",
     "typescript": "~5.8.3"
   },
   "private": true

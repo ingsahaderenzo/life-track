@@ -6,18 +6,26 @@ type ParametersListProps = {
     mode: "Temporizador" | "Cronometro";
     setStartEnabled: (enabled: boolean) => void;
     resetInputs: boolean;
+    setDuration: (duration: string) => void;
+    setSessions: (sessions: string) => void;
+    setBreakDuration: (breakDuration: string) => void;
+    duration: string;
+    sessions: string;
+    breakDuration: string;
 };
 
 const ParametersList = ({
     mode,
     setStartEnabled,
     resetInputs,
+    setDuration,
+    setSessions,
+    setBreakDuration,
+    duration,
+    sessions,
+    breakDuration,
 }: ParametersListProps) => {
     const theme = useTheme();
-
-    const [duration, setDuration] = useState<string>("");
-    const [sessions, setSessions] = useState<string>("");
-    const [breakDuration, setBreakDuration] = useState<string>("");
 
     // Show resume only if in "Temporizador" mode and both duration and sessions are set
     const showResume =

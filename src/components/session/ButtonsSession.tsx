@@ -7,6 +7,7 @@ type ButtonsSessionProps = {
     setResetInputs: (reset: boolean) => void;
     resetInputs: boolean;
     mode: "Temporizador" | "Cronometro";
+    startTimer: () => void;
 };
 
 const ButtonsSession = ({
@@ -14,12 +15,14 @@ const ButtonsSession = ({
     setResetInputs,
     resetInputs,
     mode,
+    startTimer,
 }: ButtonsSessionProps) => {
     const theme = useTheme();
 
-    const [resetEnabled, setResetEnabled] = useState<boolean>(false);
-
-    const handleStart = () => {};
+    // Function to start the session
+    const handleStart = () => {
+        startTimer();
+    };
 
     // Toggle reset inputs state
     const handleReset = () => {
@@ -42,7 +45,6 @@ const ButtonsSession = ({
                     icon="restart"
                     mode="outlined"
                     onPress={handleReset}
-                    disabled={resetEnabled}
                     iconColor={theme.colors.primary}
                     style={[
                         styles.buttonReset,
