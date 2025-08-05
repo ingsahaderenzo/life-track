@@ -1,9 +1,43 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import { useTheme } from "react-native-paper";
+import HomeHeader from "../components/home/HomeHeader";
+import StreakCount from "../components/home/StreakCount";
 
-export default function HomeScreen({ navigation }: any) {
+export default function HomeScreen() {
+    const theme = useTheme();
+
     return (
-        <View>
-            <Text>Home Screen</Text>
+        <View
+            style={[
+                styles.container,
+                { backgroundColor: theme.colors.background },
+            ]}
+        >
+            <HomeHeader />
+            <StreakCount />
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        width: "100%",
+        height: "100%",
+    },
+    body: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        width: "90%",
+        maxWidth: 500,
+        padding: 20,
+        borderRadius: 20,
+        shadowColor: "#000",
+        shadowOpacity: 0.2,
+        shadowOffset: { width: 0, height: 8 },
+        shadowRadius: 10,
+    },
+});
