@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useTheme } from "react-native-paper";
 import HomeHeader from "../components/home/HomeHeader";
 import StreakCount from "../components/home/StreakCount";
+import ProgressBarHome from "../components/home/ProgressBarHome";
 
 export default function HomeScreen() {
     const theme = useTheme();
@@ -15,6 +16,7 @@ export default function HomeScreen() {
         >
             <HomeHeader />
             <StreakCount />
+            <ProgressBarHome />
         </View>
     );
 }
