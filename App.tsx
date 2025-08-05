@@ -7,9 +7,12 @@ import { store } from "./src/app/store";
 import { Provider } from "react-redux";
 import { useAppTheme } from "./src/hooks/useAppTheme";
 import * as Notifications from "expo-notifications";
+import { useInitialCharge } from "./src/hooks/useInitialCharge";
 
 function ThemeProvider() {
     const currentTheme = useAppTheme();
+
+    useInitialCharge();
 
     return (
         <SafeAreaProvider>
@@ -21,7 +24,6 @@ function ThemeProvider() {
     );
 }
 
-// Configuración global de notificaciones (mover a App.tsx)
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
         shouldShowAlert: true,
