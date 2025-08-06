@@ -12,7 +12,7 @@ export function useInitialCharge() {
     useEffect(() => {
         const initialLoad = async () => {
             try {
-                const categories = await getFromStorage<string>("categories");
+                const categories = await getFromStorage<string[]>("categories");
                 const stats = await getFromStorage<StatsStorage>("stats");
 
                 if (categories) {

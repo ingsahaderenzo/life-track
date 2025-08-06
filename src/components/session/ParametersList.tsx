@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Text, TextInput, useTheme } from "react-native-paper";
 
 type ParametersListProps = {
     mode: "Temporizador" | "Cronometro";
-    setStartEnabled: (enabled: boolean) => void;
-    resetInputs: boolean;
     setDuration: (duration: string) => void;
     setSessions: (sessions: string) => void;
     setBreakDuration: (breakDuration: string) => void;
@@ -16,8 +14,6 @@ type ParametersListProps = {
 
 const ParametersList = ({
     mode,
-    setStartEnabled,
-    resetInputs,
     setDuration,
     setSessions,
     setBreakDuration,
@@ -31,7 +27,7 @@ const ParametersList = ({
     const showResume =
         mode === "Temporizador" && sessions !== "" && duration !== "";
 
-    // Handle changes for duration and sessions input fields
+    // Handle changes for duration, sessions and breaks input fields
     const handleDurationChange = (text: string) => {
         const numericOnly = text.replace(/[^0-9]/g, "");
         setDuration(numericOnly);
@@ -49,34 +45,6 @@ const ParametersList = ({
         const numericOnly = text.replace(/[^0-9]/g, "");
         setBreakDuration(numericOnly);
     };
-
-    // Verify inputs and enable/disable start button
-    useEffect(() => {
-        const enableButtons = () => {
-            if (mode === "Temporizador") {
-                if (parseInt(sessions) > 1) {
-                    setStartEnabled(
-                        duration !== "" &&
-                            sessions !== "" &&
-                            breakDuration !== ""
-                    );
-                } else {
-                    setStartEnabled(duration !== "" && sessions !== "");
-                }
-            } else {
-                setStartEnabled(true); // Always enable for "Cronometro"
-            }
-        };
-
-        enableButtons();
-    }, [duration, sessions, breakDuration, mode]);
-
-    // Reset inputs when resetInputs prop changes
-    useEffect(() => {
-        setDuration("");
-        setSessions("");
-        setBreakDuration("");
-    }, [resetInputs]);
 
     return (
         <View style={styles.container}>

@@ -6,12 +6,13 @@ const isNative = Platform.OS !== "web";
 // Function to save data to storage and works for both web and native platforms
 export const saveToStorage = async (key: string, value: any): Promise<void> => {
     try {
-        const data = JSON.stringify(value); // Convert value to string
+        if (value === undefined) {
+            throw new Error(`No se puede guardar 'undefined' en ${key}`);
+        }
+        const data = JSON.stringify(value);
         if (isNative) {
-            // Use AsyncStorage for native platforms
             await AsyncStorage.setItem(key, data);
         } else {
-            // Use localStorage for web
             localStorage.setItem(key, data);
         }
     } catch (error) {
@@ -20,20 +21,17 @@ export const saveToStorage = async (key: string, value: any): Promise<void> => {
 };
 
 // Function to retrieve data from storage and works for both web and native platforms
-export const getFromStorage = async <T>(key: string): Promise<T> => {
+export const getFromStorage = async <T>(key: string): Promise<T | null> => {
     try {
         let data: string | null = null;
         if (isNative) {
-            // Use AsyncStorage for native platforms
             data = await AsyncStorage.getItem(key);
         } else {
-            // Use localStorage for web
             data = localStorage.getItem(key);
         }
-        // Parse the data if it exists, otherwise return an empty array
-        return data ? (JSON.parse(data) as T) : ([] as T);
+        return data ? (JSON.parse(data) as T) : null;
     } catch (error) {
         console.error(`Error retrieving ${key}:`, error);
-        return [] as T;
+        return null;
     }
 };

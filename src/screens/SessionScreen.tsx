@@ -1,15 +1,19 @@
 import { View, StyleSheet } from "react-native";
 import { useTheme, Text } from "react-native-paper";
 import SessionHeader from "../components/session/SessionHeader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CategoryList from "../components/session/CategoryList";
 import ParametersList from "../components/session/ParametersList";
 import ButtonsSession from "../components/session/ButtonsSession";
 import TimerModal from "../components/session/TimerModal";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../app/store";
+import { addSession } from "../store/statsSlice";
+import MessageModal from "../components/common/MessageModal";
 
 export default function SessionScreen() {
-    // Use a hook to bring back the theme
     const theme = useTheme();
+    const dispatch = useDispatch();
 
     const [startEnabled, setStartEnabled] = useState<boolean>(false);
     const [resetInputs, setResetInputs] = useState<boolean>(false);
@@ -17,11 +21,61 @@ export default function SessionScreen() {
     const [duration, setDuration] = useState<string>("");
     const [sessions, setSessions] = useState<string>("");
     const [breakDuration, setBreakDuration] = useState<string>("");
+    const [selectedCategorie, setSelectedCategoria] = useState<string>("");
+    const [messageModalVisible, setMessageModalVisble] =
+        useState<boolean>(false);
+    const [message, setMessage] = useState<string>("");
+
+    // Take the categories from redux
+    const categories = useSelector(
+        (store: RootState) => store.categories.categories
+    );
 
     // Hook to know what kind of mode we got
     const [mode, setMode] = useState<"Temporizador" | "Cronometro">(
         "Temporizador"
     );
+
+    // Verify inputs and enable/disable start button
+    useEffect(() => {
+        const enableButtons = () => {
+            if (mode === "Temporizador") {
+                if (parseInt(sessions) > 1) {
+                    setStartEnabled(
+                        duration !== "" &&
+                            sessions !== "" &&
+                            breakDuration !== "" &&
+                            selectedCategorie !== ""
+                    );
+                } else {
+                    setStartEnabled(
+                        duration !== "" &&
+                            sessions !== "" &&
+                            selectedCategorie !== ""
+                    );
+                }
+            } else {
+                setStartEnabled(selectedCategorie !== ""); // Always enable for "Cronometro"
+            }
+        };
+
+        enableButtons();
+    }, [duration, sessions, breakDuration, selectedCategorie, mode]);
+
+    // Reset inputs when resetInputs prop changes
+    useEffect(() => {
+        setDuration("");
+        setSessions("");
+        setBreakDuration("");
+    }, [resetInputs]);
+
+    const sessionFinished = () => {
+        const totalDuration = parseInt(duration) * parseInt(sessions);
+        dispatch(addSession({ selectedCategorie, totalDuration }));
+        setMessage("Session completada con éxito");
+        setTimeModalVisible(false);
+        setMessageModalVisble(true);
+    };
 
     return (
         <View
@@ -42,11 +96,15 @@ export default function SessionScreen() {
                 <Text variant="headlineSmall">
                     {mode === "Cronometro" ? "Sesión libre" : "Nueva sesión"}
                 </Text>
-                <CategoryList />
+                <CategoryList
+                    categories={categories}
+                    setSelectedCategorie={(value: string) =>
+                        setSelectedCategoria(value)
+                    }
+                    selectedCategorie={selectedCategorie}
+                />
                 <ParametersList
                     mode={mode}
-                    setStartEnabled={setStartEnabled}
-                    resetInputs={resetInputs}
                     setDuration={setDuration}
                     setSessions={setSessions}
                     setBreakDuration={setBreakDuration}
@@ -64,13 +122,18 @@ export default function SessionScreen() {
                 <TimerModal
                     visible={timeModalVisible}
                     forceClose={() => setTimeModalVisible(false)}
-                    okClose={() => setTimeModalVisible(false)}
+                    okClose={sessionFinished}
                     duration={parseInt(duration)}
                     sessions={parseInt(sessions)}
                     breakDuration={parseInt(breakDuration)}
                     mode={mode}
                 />
             </View>
+            <MessageModal
+                message={message}
+                visible={messageModalVisible}
+                onClose={() => setMessageModalVisble(false)}
+            />
         </View>
     );
 }

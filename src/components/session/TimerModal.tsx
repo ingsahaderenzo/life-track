@@ -1,5 +1,5 @@
 // src/screens/TimerModal.tsx
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Modal, AppState } from "react-native";
 import { useTheme, Text, Button } from "react-native-paper";
 import * as Notifications from "expo-notifications";

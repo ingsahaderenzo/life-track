@@ -35,6 +35,6 @@ export const statsSlice = createSlice({
     },
 });
 
-export const { setStats } = statsSlice.actions;
+export const { setStats, addSession } = statsSlice.actions;
 
 export default statsSlice.reducer;
