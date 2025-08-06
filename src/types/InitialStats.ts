@@ -13,6 +13,7 @@ export const initialStadistics: Stadistics = {
     todaySessions: 0,
     targetDuration: 0,
     todayFocus: 0,
+    lastSession: "",
 };
 
 export const emptyStats: StatsStorage = {
@@ -21,9 +22,5 @@ export const emptyStats: StatsStorage = {
         daily: {},
         weekly: {},
         monthly: {},
-    },
-    compactStats: {
-        totalByWeek: {},
-        totalByMonth: {},
     },
 };

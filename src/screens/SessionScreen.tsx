@@ -71,7 +71,9 @@ export default function SessionScreen() {
 
     const sessionFinished = () => {
         const totalDuration = parseInt(duration) * parseInt(sessions);
-        dispatch(addSession({ selectedCategorie, totalDuration }));
+        dispatch(
+            addSession({ category: selectedCategorie, duration: totalDuration })
+        );
         setMessage("Session completada con éxito");
         setTimeModalVisible(false);
         setMessageModalVisble(true);
