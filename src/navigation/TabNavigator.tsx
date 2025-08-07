@@ -5,6 +5,7 @@ import { IconButton, useTheme } from "react-native-paper";
 import HomeScreen from "../screens/HomeScreen";
 import SessionScreen from "../screens/SessionScreen";
 import { ConfigurationScreen } from "../screens/ConfigurationScreen";
+import StatsScreen from "../screens/StatsScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -14,7 +15,7 @@ export default function TabNavigator() {
     return (
         <NavigationContainer>
             <Tab.Navigator
-                initialRouteName="home" // Lo ponemos de forma temporal para el dev
+                initialRouteName="home"
                 screenOptions={{
                     headerShown: false,
                     tabBarShowLabel: false,
@@ -46,7 +47,7 @@ export default function TabNavigator() {
                     options={{
                         tabBarIcon: ({ focused }) => (
                             <IconButton
-                                icon="clock-time-four"
+                                icon="clock-outline" // generic time icon
                                 size={24}
                                 containerColor={
                                     focused
@@ -69,7 +70,29 @@ export default function TabNavigator() {
                     options={{
                         tabBarIcon: ({ focused }) => (
                             <IconButton
-                                icon="home"
+                                icon="home-outline" // generic home icon
+                                size={24}
+                                containerColor={
+                                    focused
+                                        ? theme.colors.primary
+                                        : "transparent"
+                                }
+                                iconColor={
+                                    focused
+                                        ? theme.colors.onPrimary
+                                        : theme.colors.primary
+                                }
+                            />
+                        ),
+                    }}
+                />
+                <Tab.Screen
+                    name="stats"
+                    component={StatsScreen}
+                    options={{
+                        tabBarIcon: ({ focused }) => (
+                            <IconButton
+                                icon="chart-bar" // generic stats icon
                                 size={24}
                                 containerColor={
                                     focused
@@ -91,7 +114,7 @@ export default function TabNavigator() {
                     options={{
                         tabBarIcon: ({ focused }) => (
                             <IconButton
-                                icon="cog"
+                                icon="cog-outline" // generic settings icon
                                 size={24}
                                 containerColor={
                                     focused
