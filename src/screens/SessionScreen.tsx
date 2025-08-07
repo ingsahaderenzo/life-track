@@ -69,8 +69,26 @@ export default function SessionScreen() {
         setBreakDuration("");
     }, [resetInputs]);
 
-    const sessionFinished = () => {
-        const totalDuration = parseInt(duration) * parseInt(sessions);
+    const sessionFinished = (auxDuration?: number) => {
+        let totalDuration = 0;
+
+        if (auxDuration !== undefined) {
+            const minutes = auxDuration / 60;
+
+            if (minutes < 1) {
+                setMessage(
+                    "Para poder guardar el tiempo de un cronometro, este debe ser mayor a 1 minuto"
+                );
+                setTimeModalVisible(false);
+                setMessageModalVisble(true);
+                return;
+            } else {
+                totalDuration = Math.round(minutes);
+            }
+        } else {
+            totalDuration = parseInt(duration) * parseInt(sessions);
+        }
+
         dispatch(
             addSession({ category: selectedCategorie, duration: totalDuration })
         );
@@ -125,6 +143,9 @@ export default function SessionScreen() {
                 <TimerModal
                     visible={timeModalVisible}
                     forceClose={() => setTimeModalVisible(false)}
+                    goodStop={(auxDuration: number) =>
+                        sessionFinished(auxDuration)
+                    }
                     okClose={sessionFinished}
                     duration={parseInt(duration)}
                     sessions={parseInt(sessions)}

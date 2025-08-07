@@ -27,9 +27,27 @@ export default function HomeScreen() {
         (store: RootState) => store.quickStart.quickStarts
     );
 
-    const onFinishQuickStart = () => {
-        const totalDuration =
-            selectedQuickStart!.duration * selectedQuickStart!.sessions;
+    const onFinishQuickStart = (auxDuration?: number) => {
+        let totalDuration = 0;
+
+        if (auxDuration !== undefined) {
+            const minutes = auxDuration / 60;
+
+            if (minutes < 1) {
+                setMessage(
+                    "Para poder guardar el tiempo de un cronometro, este debe ser mayor a 1 minuto"
+                );
+                setTimeModalVisible(false);
+                setMessageModalVisble(true);
+                return;
+            } else {
+                totalDuration = Math.round(minutes);
+            }
+        } else {
+            totalDuration =
+                selectedQuickStart!.duration * selectedQuickStart!.sessions;
+        }
+
         dispatch(
             addSession({
                 category: selectedQuickStart?.category,
@@ -65,6 +83,7 @@ export default function HomeScreen() {
                 <TimerModal
                     visible={timeModalVisible}
                     forceClose={() => setTimeModalVisible(false)}
+                    goodStop={(value: number) => onFinishQuickStart(value)}
                     okClose={onFinishQuickStart}
                     duration={selectedQuickStart.duration}
                     sessions={selectedQuickStart.sessions}

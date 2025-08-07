@@ -8,6 +8,7 @@ type TimerModalProps = {
     visible: boolean;
     forceClose: () => void;
     okClose: () => void;
+    goodStop: (duration: number) => void;
     mode: "Temporizador" | "Cronometro";
     duration?: number; // minutos de sesión
     sessions?: number; // número de sesiones
@@ -22,6 +23,7 @@ export default function TimerModal({
     duration = 0,
     sessions = 1,
     breakDuration = 0,
+    goodStop,
 }: TimerModalProps) {
     const theme = useTheme();
 
@@ -195,37 +197,54 @@ export default function TimerModal({
         forceClose();
     };
 
-    // Formatea MM:SS
+    // Formatea HH:MM:SS o MM:SS si horas = 0
     const formatTime = () => {
         if (startTime === 0) return "00:00";
 
-        let timeToShow;
+        // segundos transcurridos o remanentes
+        let totalSeconds: number;
         if (mode === "Cronometro") {
-            // Cronómetro cuenta hacia arriba
-            timeToShow = (currentTime - startTime) / 1000;
+            totalSeconds = Math.floor((currentTime - startTime) / 1000);
         } else {
-            // Temporizador cuenta hacia abajo
-            timeToShow = Math.max(
+            totalSeconds = Math.max(
                 0,
-                periodSeconds - (currentTime - startTime) / 1000
+                Math.ceil(periodSeconds - (currentTime - startTime) / 1000)
             );
         }
 
-        const mm = Math.floor(timeToShow / 60)
-            .toString()
-            .padStart(2, "0");
-        const ss = Math.floor(timeToShow % 60)
-            .toString()
-            .padStart(2, "0");
-        return `${mm}:${ss}`;
-    };
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
 
+        const hh = hours.toString().padStart(2, "0");
+        const mm = minutes.toString().padStart(2, "0");
+        const ss = seconds.toString().padStart(2, "0");
+
+        // Si no hay horas, podés devolver "MM:SS" o forzar "00:MM:SS"
+        return hours > 0 ? `${hh}:${mm}:${ss}` : `${mm}:${ss}`;
+    };
     // Colores invertidos en descanso
     const isBreak = mode === "Temporizador" && phase === "break";
     const backgroundColor = isBreak
         ? theme.colors.primary
         : theme.colors.background;
     const textColor = isBreak ? theme.colors.onPrimary : theme.colors.primary;
+
+    const handleStop = async () => {
+        if (notificationId) {
+            await Notifications.cancelScheduledNotificationAsync(
+                notificationId
+            );
+            setNotificationId(null);
+        }
+
+        if (mode === "Temporizador") {
+            forceClose();
+        } else {
+            const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+            goodStop(elapsedSeconds);
+        }
+    };
 
     return (
         <Modal
@@ -255,7 +274,7 @@ export default function TimerModal({
 
                 <Button
                     mode="contained"
-                    onPress={handleForceClose}
+                    onPress={handleStop}
                     style={{ marginTop: 20 }}
                     buttonColor={
                         isBreak ? theme.colors.onPrimary : theme.colors.primary
