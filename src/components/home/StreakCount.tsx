@@ -1,8 +1,18 @@
 import { View, StyleSheet } from "react-native";
 import { useTheme, Text } from "react-native-paper";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 
 const StreakCount = () => {
     const theme = useTheme();
+
+    const currentStreak = useSelector(
+        (store: RootState) => store.stats.stats.stadistics.currentStreak
+    );
+
+    const todyaSessions = useSelector(
+        (store: RootState) => store.stats.stats.stadistics.todaySessions
+    );
 
     return (
         <View style={styles.container}>
@@ -17,7 +27,7 @@ const StreakCount = () => {
                     variant="displaySmall"
                     style={{ fontWeight: "bold", marginVertical: 10 }}
                 >
-                    7
+                    {currentStreak}
                 </Text>
                 <Text>Días seguidos</Text>
             </View>
@@ -32,7 +42,7 @@ const StreakCount = () => {
                     variant="displaySmall"
                     style={{ fontWeight: "bold", marginVertical: 10 }}
                 >
-                    5
+                    {todyaSessions}
                 </Text>
                 <Text>Sesiones completadas</Text>
             </View>

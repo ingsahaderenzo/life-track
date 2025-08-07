@@ -6,6 +6,8 @@ import { StatsStorage } from "../types/StatsStorage";
 import { setStats } from "../store/statsSlice";
 import { emptyStats } from "../types/InitialStats";
 import { getCurrentDateKey, getYesterdayDateKey } from "../utils/TimeUtils";
+import { QuickStartData } from "../types/QuickStartData";
+import { setQuickStart } from "../store/quickStartSlice";
 
 export function useInitialCharge() {
     const dispatch = useDispatch();
@@ -15,12 +17,21 @@ export function useInitialCharge() {
             try {
                 const categories = await getFromStorage<string[]>("categories");
                 const stats = await getFromStorage<StatsStorage>("stats");
+                const quickStarts =
+                    await getFromStorage<QuickStartData[]>("quickStart");
 
                 if (categories) {
                     dispatch(setCategories(categories));
                 } else {
                     dispatch(setCategories([]));
                     saveToStorage("categories", []);
+                }
+
+                if (quickStarts) {
+                    dispatch(setQuickStart(quickStarts));
+                } else {
+                    dispatch(setQuickStart([]));
+                    saveToStorage("quickStart", []);
                 }
 
                 if (stats) {

@@ -26,8 +26,6 @@ export const statsSlice = createSlice({
         addSession: (state, action) => {
             const { category, duration } = action.payload;
 
-            console.log();
-
             const stats = state.stats.stadistics;
 
             const dateKey = getCurrentDateKey();

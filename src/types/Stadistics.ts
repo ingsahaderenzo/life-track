@@ -21,9 +21,6 @@ export interface Stadistics {
     // Datos pasados
     lastMonthTotal: number; // Total del mes pasado
 
-    // Datos historicos
-    dailyAverage: number; // Promedio diario
-
     // Datos auxiliares
     lastSession: string; // Fecha de la ultima sessión
 }

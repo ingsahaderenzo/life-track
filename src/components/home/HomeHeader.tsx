@@ -38,7 +38,7 @@ const HomeHeader = () => {
 
     return (
         <View style={styles.body}>
-            <Text variant="displaySmall">Buenos dias! 👋</Text>
+            <Text variant="displaySmall">Buenos dias! 🥰</Text>
             <Text variant="bodyLarge" style={styles.date}>
                 {diaSemana}, {numeroDia} de {nombreMes} de {anio}
             </Text>

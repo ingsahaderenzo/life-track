@@ -1,8 +1,21 @@
 import { View, StyleSheet } from "react-native";
 import { Text, useTheme, ProgressBar } from "react-native-paper";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 
 const ProgressBarHome = () => {
     const theme = useTheme();
+
+    const todayFocus = useSelector(
+        (store: RootState) => store.stats.stats.stadistics.todayFocus
+    );
+
+    const targetDuration = useSelector(
+        (store: RootState) => store.stats.stats.stadistics.targetDuration
+    );
+
+    const percent =
+        todayFocus / targetDuration < 1 ? todayFocus / targetDuration : 1;
 
     return (
         <View
@@ -14,11 +27,16 @@ const ProgressBarHome = () => {
             <Text variant="headlineMedium">Progreso de hoy</Text>
             <View style={styles.timeContainer}>
                 <Text>Tiempo de enfoque</Text>
-                <Text>85 / 120 min</Text>
+                <Text>
+                    {todayFocus} / {targetDuration} min
+                </Text>
             </View>
             <View style={styles.progressContainer}>
-                <ProgressBar animatedValue={0.5} style={styles.progressBar} />
-                <Text>71% Completo</Text>
+                <ProgressBar
+                    animatedValue={percent}
+                    style={styles.progressBar}
+                />
+                <Text>{percent * 100}% Completo</Text>
             </View>
         </View>
     );

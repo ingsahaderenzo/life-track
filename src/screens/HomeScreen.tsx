@@ -3,9 +3,47 @@ import { useTheme } from "react-native-paper";
 import HomeHeader from "../components/home/HomeHeader";
 import StreakCount from "../components/home/StreakCount";
 import ProgressBarHome from "../components/home/ProgressBarHome";
+import QuickStart from "../components/home/QuickStart";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../app/store";
+import TimerModal from "../components/session/TimerModal";
+import MessageModal from "../components/common/MessageModal";
+import { useEffect, useState } from "react";
+import { QuickStartData } from "../types/QuickStartData";
+import { addSession } from "../store/statsSlice";
 
 export default function HomeScreen() {
     const theme = useTheme();
+    const dispatch = useDispatch();
+
+    const [timeModalVisible, setTimeModalVisible] = useState<boolean>(false);
+    const [messageModalVisible, setMessageModalVisble] =
+        useState<boolean>(false);
+    const [message, setMessage] = useState<string>("");
+    const [selectedQuickStart, setSelectedQuickStart] =
+        useState<QuickStartData | null>(null);
+
+    const quickStartDatas = useSelector(
+        (store: RootState) => store.quickStart.quickStarts
+    );
+
+    const onFinishQuickStart = () => {
+        const totalDuration =
+            selectedQuickStart!.duration * selectedQuickStart!.sessions;
+        dispatch(
+            addSession({
+                category: selectedQuickStart?.category,
+                duration: totalDuration,
+            })
+        );
+        setMessage("Session completada con éxito");
+        setTimeModalVisible(false);
+        setMessageModalVisble(true);
+    };
+
+    useEffect(() => {
+        setTimeModalVisible(true);
+    }, [selectedQuickStart]);
 
     return (
         <View
@@ -17,6 +55,28 @@ export default function HomeScreen() {
             <HomeHeader />
             <StreakCount />
             <ProgressBarHome />
+            <QuickStart
+                data={quickStartDatas}
+                selectQuickStart={(value: QuickStartData) =>
+                    setSelectedQuickStart(value)
+                }
+            />
+            {selectedQuickStart && (
+                <TimerModal
+                    visible={timeModalVisible}
+                    forceClose={() => setTimeModalVisible(false)}
+                    okClose={onFinishQuickStart}
+                    duration={selectedQuickStart.duration}
+                    sessions={selectedQuickStart.sessions}
+                    breakDuration={selectedQuickStart.breakDuration}
+                    mode={selectedQuickStart.mode}
+                />
+            )}
+            <MessageModal
+                message={message}
+                visible={messageModalVisible}
+                onClose={() => setMessageModalVisble(false)}
+            />
         </View>
     );
 }

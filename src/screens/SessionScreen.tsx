@@ -74,6 +74,7 @@ export default function SessionScreen() {
         dispatch(
             addSession({ category: selectedCategorie, duration: totalDuration })
         );
+        setResetInputs(!resetInputs);
         setMessage("Session completada con éxito");
         setTimeModalVisible(false);
         setMessageModalVisble(true);
