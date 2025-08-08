@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useTheme, Text, SegmentedButtons } from "react-native-paper";
 
 type Props = {

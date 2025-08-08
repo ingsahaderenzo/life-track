@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import FirstStats from "../components/stats/FirtStats";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
+import PieChart from "../components/stats/PieChart";
 
 export default function HomeScreen() {
     const theme = useTheme();
@@ -21,6 +22,11 @@ export default function HomeScreen() {
             <FirstStats
                 monthTotal={stats.stadistics.monthTotal}
                 todayFocus={stats.stadistics.todayFocus}
+            />
+            <PieChart
+                daily={stats.categoryStats.daily}
+                monthly={stats.categoryStats.monthly}
+                weekly={stats.categoryStats.weekly}
             />
         </View>
     );
