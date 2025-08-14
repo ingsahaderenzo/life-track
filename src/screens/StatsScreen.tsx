@@ -4,6 +4,7 @@ import FirstStats from "../components/stats/FirtStats";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import PieChart from "../components/stats/PieChart";
+import PersonalRecord from "../components/stats/PersonalRecord";
 
 export default function HomeScreen() {
     const theme = useTheme();
@@ -27,6 +28,12 @@ export default function HomeScreen() {
                 daily={stats.categoryStats.daily}
                 monthly={stats.categoryStats.monthly}
                 weekly={stats.categoryStats.weekly}
+            />
+            <PersonalRecord
+                longestSession={stats.stadistics.longestSession}
+                bestDay={stats.stadistics.bestDay}
+                bestStreak={stats.stadistics.bestStreak}
+                maxSessionsPerDay={stats.stadistics.maxSessionsPerDay}
             />
         </View>
     );
